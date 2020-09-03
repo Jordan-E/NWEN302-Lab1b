@@ -52,12 +52,14 @@ class Switch:
         self.tableSize = 2
         self.timeout = 20
 
+    #if the switchtable contains a key given
     def containKey(self, address):
         if address in self.switchTable.keys():
             return True
         else:
             return False
 
+    #add address to switch table and get save its time recived. Remove item if table size to big
     def add(self, key, value):
         self.switchTable[key] = value
         self.timeRecived[key] = time.time()
@@ -67,13 +69,16 @@ class Switch:
     def get(self, key):
         return self.switchTable[key]
 
+    #remove switch entry
     def removeItem(self, key):
         del self.switchTable[key]
         del self.timeRecived[key]
 
+    #get time that entry was created
     def getTimeAdded(self, key):
         return self.timeRecived[key]
 
+    #remove oldest entry in the dictonary
     def removeOldest(self):
         lowestValue = 100000000000000000;
         lowestAddy = None
@@ -84,7 +89,7 @@ class Switch:
         self.removeItem(lowestAddy)
         print("Table full removed {}".format(lowestAddy))
 
-
+    #removed entries that have expired
     def removeExpired(self):
         for adress in list(self.timeRecived):
             if time.time() - self.timeRecived[adress] >= self.timeout:
